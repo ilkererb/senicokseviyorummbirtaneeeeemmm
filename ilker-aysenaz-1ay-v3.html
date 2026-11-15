@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.Ayımız Kutlu Olsun Birtaneeeeemmmmm! ❤️</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --bg-deep: #220a14;
+            --bg-darker: #15050c;
+            --card-surface: rgba(54, 21, 36, 0.82);
+            --card-border: rgba(255, 143, 184, 0.25);
+            --pink-primary: #ff2e74;
+            --pink-soft: #ff9ec2;
+            --text-light: #fff0f5;
+            --text-muted: #d89cb4;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-light);
+            overflow-x: hidden;
+            background-image:
+                radial-gradient(circle at 20% 10%, rgba(255, 59, 127, 0.18) 0%, transparent 45%),
+                radial-gradient(circle at 82% 35%, rgba(219, 39, 119, 0.14) 0%, transparent 50%),
+                radial-gradient(circle at 50% 85%, rgba(157, 23, 77, 0.22) 0%, transparent 55%),
+                linear-gradient(180deg, #240b16 0%, #19060e 50%, #14040b 100%);
+        }
+
+        .font-serif-romantic {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .font-handwriting {
+            font-family: 'Caveat', cursive;
+        }
+
+        /* Arka Plan Uçan Kalpler */
+        .floating-hearts {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .heart-particle {
+            position: absolute;
+            bottom: -50px;
+            color: rgba(255, 110, 165, 0.48);
+            text-shadow: 0 0 12px rgba(255, 59, 127, 0.65), 0 0 24px rgba(255, 158, 194, 0.35);
+            animation: floatUp linear infinite;
+            user-select: none;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg) scale(0.75);
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.85;
+            }
+            50% {
+                transform: translateY(-55vh) translateX(18px) rotate(180deg) scale(1);
+            }
+            85% {
+                opacity: 0.65;
+            }
+            100% {
+                transform: translateY(-115vh) translateX(-16px) rotate(360deg) scale(1.25);
+                opacity: 0;
+            }
+        }
+
+        .pink-glass-card {
+            background: var(--card-surface);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid var(--card-border);
+            box-shadow: 0 18px 42px -12px rgba(0, 0, 0, 0.72), inset 0 1px 0 rgba(255, 192, 217, 0.1);
+        }
+
+        .hero-script-title {
+            font-family: 'Great Vibes', cursive;
+            color: #ff9ec2;
+            text-shadow:
+                0 2px 18px rgba(255, 77, 141, 0.45),
+                0 0 40px rgba(255, 158, 194, 0.25);
+            line-height: 1.15;
+        }
+
+        @keyframes spinVinyl {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .vinyl-disc {
+            background: radial-gradient(circle at center, #14070d 0%, #2a0d19 45%, #11050a 70%, #2e0f1d 100%);
+            box-shadow: 0 0 22px rgba(255, 59, 127, 0.25), inset 0 0 10px rgba(0, 0, 0, 0.9);
+            animation: spinVinyl 6s linear infinite;
+            animation-play-state: paused;
+        }
+
+        .vinyl-disc.playing {
+            animation-play-state: running;
+        }
+
+        @keyframes eqBounce {
+            0%, 100% { height: 5px; }
+            50% { height: 15px; }
+        }
+
+        .eq-bar {
+            width: 3px;
+            height: 6px;
+            border-radius: 9999px;
+            background: #ff8fb8;
+            animation: eqBounce 0.75s ease-in-out infinite;
+            animation-play-state: paused;
+        }
+
+        .eq-bar.playing {
+            animation-play-state: running;
+        }
+
+        #puzzle-container {
+            position: relative;
+            user-select: none;
+            touch-action: none;
+            background: rgba(24, 8, 15, 0.85);
+            border: 2px dashed rgba(255, 143, 184, 0.38);
+            border-radius: 1.25rem;
+            box-shadow: inset 0 6px 24px rgba(0, 0, 0, 0.8);
+        }
+
+        .jigsaw-piece {
+            position: absolute;
+            cursor: grab;
+            transition: transform 0.15s ease, filter 0.15s ease;
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.8));
+            overflow: visible;
+        }
+
+        .jigsaw-piece:active {
+            cursor: grabbing;
+            z-index: 50 !important;
+            transform: scale(1.04);
+            filter: drop-shadow(0 12px 22px rgba(255, 59, 127, 0.45));
+        }
+
+        .jigsaw-piece.locked {
+            cursor: default;
+            filter: none;
+            z-index: 1 !important;
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .envelope-box {
+            background: linear-gradient(145deg, #3b1425 0%, #270c18 60%, #1c0711 100%);
+            border: 1px solid rgba(255, 143, 184, 0.35);
+            box-shadow: 0 22px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 59, 127, 0.14);
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease;
+        }
+
+        .envelope-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 28px 60px rgba(0, 0, 0, 0.85), 0 0 40px rgba(255, 59, 127, 0.28);
+        }
+
+        .wax-seal {
+            background: radial-gradient(circle at 30% 30%, #ff4d8d, #b81d58 70%, #730d34 100%);
+            box-shadow:
+                0 8px 22px rgba(0, 0, 0, 0.75),
+                0 0 22px rgba(255, 59, 127, 0.5),
+                inset 0 2px 4px rgba(255, 255, 255, 0.35),
+                inset 0 -3px 6px rgba(45, 4, 20, 0.8);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .envelope-box:hover .wax-seal {
+            transform: scale(1.08) rotate(-5deg);
+        }
+
+        .letter-paper {
+            background-color: #290e1a;
+            background-image:
+                linear-gradient(rgba(255, 158, 194, 0.11) 1px, transparent 1px),
+                radial-gradient(circle at top right, rgba(255, 59, 127, 0.18), transparent 65%);
+            background-size: 100% 2.15rem, 100% 100%;
+            box-shadow:
+                0 24px 55px rgba(0, 0, 0, 0.85),
+                inset 0 0 50px rgba(15, 4, 9, 0.7);
+        }
+
+        .polaroid-card {
+            background: linear-gradient(160deg, #381424 0%, #240b16 100%);
+            border: 1px solid rgba(255, 158, 194, 0.28);
+            box-shadow: 0 18px 38px rgba(0, 0, 0, 0.75);
+            transition: transform 0.38s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.38s ease, border-color 0.3s ease;
+        }
+
+        .polaroid-card:hover {
+            transform: translateY(-8px) rotate(0deg) scale(1.03) !important;
+            border-color: rgba(255, 110, 165, 0.75);
+            box-shadow: 0 26px 52px rgba(0, 0, 0, 0.9), 0 0 28px rgba(255, 59, 127, 0.28);
+            z-index: 20;
+        }
+
+        .washi-tape {
+            position: absolute;
+            top: -11px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-2deg);
+            width: 82px;
+            height: 22px;
+            background: linear-gradient(90deg, rgba(255, 92, 151, 0.42), rgba(255, 179, 209, 0.45));
+            backdrop-filter: blur(2px);
+            border-left: 1px dashed rgba(255, 255, 255, 0.3);
+            border-right: 1px dashed rgba(255, 255, 255, 0.3);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+            pointer-events: none;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #15050c;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #6e2141;
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="min-h-screen relative selection:bg-pink-700 selection:text-white">
+
+    <!-- Arka Plan Kalpler -->
+    <div id="floating-hearts" class="floating-hearts"></div>
+
+    <!-- Müzik Oynatıcılar -->
+    <audio id="bgAudio" preload="auto" loop></audio>
+    <audio id="mainAudio" preload="auto"></audio>
+
+    <main class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-24 space-y-16 sm:space-y-24">
+
+        <!-- 1. BÖLÜM: BAŞLIK, SAYAÇ VE MÜZİK ÇALAR -->
+        <header class="text-center space-y-7 pt-2">
+            <div class="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-[#361524]/85 backdrop-blur-md border border-[#ff8fb8]/25 text-xs sm:text-[13px] font-semibold tracking-[0.18em] uppercase text-[#e6b3c7] shadow-lg">
+                <span class="text-[#ff5c97] text-sm leading-none">♥</span>
+                <span id="display-badge">16.10.2026 • SONSUZLUĞA İLK ADIM</span>
+            </div>
+
+            <div class="space-y-3">
+                <h1 id="display-main-title" class="hero-script-title text-6xl sm:text-8xl font-normal px-2 select-none" style="font-family: 'Great Vibes', cursive;">
+                    İlker & Ayşenaz
+                </h1>
+                <p id="display-sub-title" class="font-serif-romantic italic text-xl sm:text-2xl text-[#f3c6d8] max-w-2xl mx-auto tracking-wide">
+                    Birlikte geçen en güzel ilk 1 ayımız kutlu olsun sevgilim ✨
+                </p>
+            </div>
+
+            <!-- Sayaç Kartı -->
+            <div class="pt-2 space-y-4 max-w-2xl mx-auto">
+                <div class="pink-glass-card rounded-3xl p-6 sm:p-8">
+                    <p class="text-[11px] sm:text-xs uppercase tracking-[0.22em] text-[#ff9ec2] font-semibold mb-5 flex items-center justify-center gap-3">
+                        <span class="w-8 h-[1px] bg-[#ff8fb8]/35"></span>
+                        Birlikte Geçen Zamanımız
+                        <span class="w-8 h-[1px] bg-[#ff8fb8]/35"></span>
+                    </p>
+
+                    <div class="grid grid-cols-4 gap-2.5 sm:gap-4">
+                        <div class="bg-gradient-to-b from-[#3d1728] to-[#230b16] rounded-2xl p-3 sm:p-4 border border-[#ff8fb8]/25 shadow-inner">
+                            <div id="count-days" class="font-serif-romantic text-3xl sm:text-5xl font-bold text-[#fff0f5]">00</div>
+                            <div class="text-[10px] sm:text-xs uppercase tracking-widest text-[#d89cb4] mt-1.5 font-semibold">Gün</div>
+                        </div>
+                        <div class="bg-gradient-to-b from-[#3d1728] to-[#230b16] rounded-2xl p-3 sm:p-4 border border-[#ff8fb8]/25 shadow-inner">
+                            <div id="count-hours" class="font-serif-romantic text-3xl sm:text-5xl font-bold text-[#fff0f5]">00</div>
+                            <div class="text-[10px] sm:text-xs uppercase tracking-widest text-[#d89cb4] mt-1.5 font-semibold">Saat</div>
+                        </div>
+                        <div class="bg-gradient-to-b from-[#3d1728] to-[#230b16] rounded-2xl p-3 sm:p-4 border border-[#ff8fb8]/25 shadow-inner">
+                            <div id="count-minutes" class="font-serif-romantic text-3xl sm:text-5xl font-bold text-[#fff0f5]">00</div>
+                            <div class="text-[10px] sm:text-xs uppercase tracking-widest text-[#d89cb4] mt-1.5 font-semibold">Dakika</div>
+                        </div>
+                        <div class="bg-gradient-to-b from-[#3d1728] to-[#230b16] rounded-2xl p-3 sm:p-4 border border-[#ff4d8d]/45 shadow-inner">
+                            <div id="count-seconds" class="font-serif-romantic text-3xl sm:text-5xl font-bold text-[#ff70a6]">00</div>
+                            <div class="text-[10px] sm:text-xs uppercase tracking-widest text-[#d89cb4] mt-1.5 font-semibold">Saniye</div>
+                        </div>
+                    </div>
+
+                    <p id="display-start-date-text" class="text-xs text-[#d89cb4] mt-4 italic">
+                        Başlangıç Anımız: 16 Ekim 2026 • 00:00
+                    </p>
+                </div>
+
+                <!-- Müzik Çalar -->
+                <div class="pink-glass-card rounded-[28px] p-4 sm:px-6 sm:py-5 flex flex-col sm:flex-row items-center justify-between gap-4 text-left">
+                    <div class="flex items-center gap-4 w-full sm:w-auto min-w-0">
+                        <div id="vinyl-disc" class="vinyl-disc shrink-0 w-16 h-16 rounded-full border border-[#ff8fb8]/30 flex items-center justify-center relative">
+                            <div class="w-11 h-11 rounded-full border border-white/10 flex items-center justify-center">
+                                <div class="w-6 h-6 rounded-full bg-gradient-to-br from-[#ff5c97] to-[#e02468] flex items-center justify-center shadow-md">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-[#15050c]"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="min-w-0 flex-1 space-y-1">
+                            <div class="flex items-center gap-2.5">
+                                <span id="display-music-badge" class="inline-flex items-center px-3 py-0.5 rounded-full bg-[#4a1a2e] border border-[#ff8fb8]/35 text-[10px] sm:text-[11px] font-semibold tracking-[0.14em] uppercase text-[#f7b2cd]">
+                                    BİZİM ŞARKIMIZ
+                                </span>
+                                <div class="inline-flex items-end gap-[3px] h-3.5" aria-hidden="true">
+                                    <span class="eq-bar" style="animation-delay: 0s;"></span>
+                                    <span class="eq-bar" style="animation-delay: 0.18s;"></span>
+                                    <span class="eq-bar" style="animation-delay: 0.36s;"></span>
+                                    <span class="eq-bar" style="animation-delay: 0.12s;"></span>
+                                </div>
+                            </div>
+
+                            <h2 id="display-music-title" class="font-serif-romantic text-xl sm:text-2xl font-bold text-white truncate">
+                                Yalın - Yeniden
+                            </h2>
+
+                            <p id="music-status-text" class="text-xs text-[#d89cb4] truncate">
+                                Ekrana dokununca başlar • Yalın - Yeniden
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2.5 w-full sm:w-auto justify-end shrink-0">
+                        <button id="music-toggle-btn" type="button" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-2xl bg-[#ff2e74] hover:bg-[#ff4785] text-white text-sm font-semibold shadow-[0_6px_20px_rgba(255,46,116,0.45)] transition-all active:scale-95">
+                            <svg id="music-icon-play" class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            <svg id="music-icon-pause" class="w-4 h-4 fill-current hidden" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                            <span id="music-btn-label">Çal</span>
+                        </button>
+
+                        <a id="music-youtube-link" href="https://www.youtube.com/results?search_query=Yal%C4%B1n+-+Yeniden" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-2xl bg-[#3d1b2a] hover:bg-[#4f2337] border border-[#ff8fb8]/25 text-[#f7dce6] text-sm font-medium transition-all active:scale-95">
+                            <span class="inline-flex items-center justify-center w-5 h-3.5 rounded-[4px] bg-[#ff4d6d] text-white">
+                                <svg class="w-2.5 h-2.5 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </span>
+                            <span>YouTube</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 2. BÖLÜM: YAPBOZ -->
+        <section id="puzzle-section" class="space-y-6">
+            <div class="text-center space-y-2">
+                <span class="text-xs uppercase tracking-[0.22em] text-[#ff8fb8] font-semibold">Sürpriz Anı Oyunu</span>
+                <h2 class="font-serif-romantic text-3xl sm:text-4xl font-bold text-[#fff0f5]">
+                    Anımızı Birleştir, Sürprizi Keşfet
+                </h2>
+                <p class="text-sm text-[#d89cb4] max-w-lg mx-auto">
+                    Parçaları sürükleyerek doğru yerlerine oturt. Yapbozu tamamladığında sana özel gizli bir not açılacak!
+                </p>
+            </div>
+
+            <div class="pink-glass-card rounded-3xl p-5 sm:p-8 space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#ff8fb8]/20">
+                    <div class="flex items-center gap-2 text-xs sm:text-sm text-[#f3c6d8]">
+                        <span class="text-[#ff5c97]">🧩</span>
+                        <span>Parçaları yuvalarına sürükle</span>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <select id="grid-size-select" class="bg-[#2c101d] border border-[#ff8fb8]/35 text-[#fff0f5] text-xs sm:text-sm rounded-full px-3.5 py-2 focus:outline-none focus:border-[#ff5c97]">
+                            <option value="3" selected>3 × 3 (Klasik)</option>
+                            <option value="4">4 × 4 (Zorlu)</option>
+                        </select>
+
+                        <button id="shuffle-puzzle-btn" type="button" class="inline-flex items-center gap-1.5 bg-[#2c101d] hover:bg-[#3d1729] text-[#ffd1e3] border border-[#ff8fb8]/35 text-xs sm:text-sm font-medium px-3.5 py-2 rounded-full transition-colors">
+                            <span>Karıştır</span>
+                        </button>
+
+                        <button id="hint-toggle-btn" type="button" class="inline-flex items-center gap-1.5 bg-[#2c101d] hover:bg-[#3d1729] text-[#ff9ec2] border border-[#ff8fb8]/35 text-xs sm:text-sm font-medium px-3.5 py-2 rounded-full transition-colors">
+                            <span>İpucu</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between text-xs text-[#d89cb4]">
+                    <span id="puzzle-status-text">Parçaları doğru yuvalarına sürükle...</span>
+                    <span id="puzzle-progress-text" class="font-semibold text-[#ff8fb8]">0 / 9 Parça</span>
+                </div>
+
+                <div class="flex justify-center">
+                    <div id="puzzle-wrapper" class="relative w-full max-w-[440px] aspect-square">
+                        <img id="puzzle-hint-img" src="" alt="İpucu" class="absolute inset-0 w-full h-full object-cover rounded-2xl opacity-20 pointer-events-none transition-opacity duration-300">
+                        <div id="puzzle-container" class="w-full h-full"></div>
+                    </div>
+                </div>
+
+                <div id="reopen-secret-container" class="hidden text-center pt-2">
+                    <button id="reopen-secret-btn" type="button" class="inline-flex items-center gap-2 bg-gradient-to-r from-[#ff2e74] to-[#ff70a6] text-white text-sm font-semibold px-6 py-3 rounded-full shadow-lg hover:scale-105 transition-transform">
+                        <span>🎁 Gizli Sürpriz Notunu Tekrar Oku</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. BÖLÜM: MEKTUP -->
+        <section id="letter-section" class="space-y-6">
+            <div class="text-center space-y-2">
+                <span class="text-xs uppercase tracking-[0.22em] text-[#ff8fb8] font-semibold">Sana Özel</span>
+                <h2 class="font-serif-romantic text-3xl sm:text-4xl font-bold text-[#fff0f5]">
+                    1. Ay Mektubum
+                </h2>
+            </div>
+
+            <div id="envelope-closed-view" class="max-w-2xl mx-auto cursor-pointer">
+                <div class="envelope-box relative rounded-3xl p-8 sm:p-12 text-center overflow-hidden">
+                    <div class="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#591d38]/65 to-transparent pointer-events-none" style="clip-path: polygon(0 0, 50% 100%, 100% 0);"></div>
+
+                    <div class="relative z-10 flex flex-col items-center space-y-5 py-4">
+                        <div class="wax-seal w-20 h-20 rounded-full flex items-center justify-center border-2 border-[#ffb3d1]/45">
+                            <span class="font-serif-romantic text-2xl font-bold text-white tracking-widest select-none">
+                                İ & A
+                            </span>
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <p class="font-handwriting text-3xl sm:text-4xl text-[#ffd6e7]">Birtaneemmmeeeee Özel...</p>
+                            <p class="text-xs sm:text-sm text-[#d89cb4]">
+                                💌 Mektubu açmak için zarfa dokun
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="envelope-opened-view" class="hidden max-w-2xl mx-auto transition-all duration-500">
+                <div class="letter-paper rounded-3xl p-7 sm:p-12 border border-[#ff8fb8]/40 relative">
+                    <div class="flex items-center justify-between border-b border-[#ff8fb8]/25 pb-4 mb-6">
+                        <span id="display-letter-header" class="font-serif-romantic italic text-lg text-[#ffb3d1]">
+                            16 Ekim 2026'dan Sonsuzluğa...
+                        </span>
+                        <button id="close-letter-btn" type="button" class="text-xs text-[#ffd1e3] hover:text-white bg-[#3d1728] px-3.5 py-1.5 rounded-full border border-[#ff8fb8]/35 transition-colors">
+                            Zarfı Kapat
+                        </button>
+                    </div>
+
+                    <div id="display-letter-content" class="font-handwriting text-2xl sm:text-[28px] leading-[2.15rem] text-[#fff0f5] whitespace-pre-line"></div>
+
+                    <div class="mt-8 pt-4 flex items-end justify-between">
+                        <div class="wax-seal w-12 h-12 rounded-full flex items-center justify-center border border-[#ffb3d1]/40">
+                            <span class="font-serif-romantic text-sm font-bold text-white">I&A</span>
+                        </div>
+                        <div class="text-right">
+                            <p id="display-letter-sign" class="font-handwriting text-3xl text-[#ff8fb8] font-bold">
+                                Sonsuz Sevgiyle, İlker ♥
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. BÖLÜM: ANI DEFTERİ -->
+        <section id="memory-book-section" class="space-y-8 pt-4">
+            <div class="text-center space-y-2">
+                <span class="text-xs uppercase tracking-[0.22em] text-[#ff8fb8] font-semibold">Bizim Hikayemiz</span>
+                <h2 class="font-serif-romantic text-3xl sm:text-4xl font-bold text-[#fff0f5]">
+                    Anı Defterimiz
+                </h2>
+                <p class="text-sm text-[#d89cb4] max-w-lg mx-auto">
+                    Birlikte biriktirdiğimiz en güzel kareler ve kalbimizde iz bırakan anlar... Büyütmek için fotoğraflara dokunabilirsin.
+                </p>
+            </div>
+
+            <div id="memory-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7 sm:gap-8 pt-2"></div>
+        </section>
+
+        <!-- 5. BÖLÜM: KÜÇÜK NOT -->
+        <section id="bottom-note-section" class="max-w-xl mx-auto pt-2">
+            <div class="pink-glass-card rounded-3xl p-6 sm:p-8 text-center space-y-3 relative overflow-hidden">
+                <div class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-[#3d1728] border border-[#ff8fb8]/35 text-[#ff5c97] text-sm shadow-inner">
+                    ♥
+                </div>
+                <h3 id="display-bottom-note-title" class="font-serif-romantic text-xl sm:text-2xl font-bold text-[#ffb3d1]">
+                    Küçük Bir Not
+                </h3>
+                <p id="display-bottom-note-text" class="font-handwriting text-2xl sm:text-[26px] leading-relaxed text-[#fff0f5] whitespace-pre-line">
+                    Saat tam 00:00 olduğunda ilk ayımızı birlikte karşılıyoruz sevgilim. İyi ki varsın, iyi ki benimsin... Seni her şeyden çok seviyorum! ❤️
+                </p>
+                <div class="pt-2 text-[11px] uppercase tracking-[0.2em] text-[#d89cb4]/80">
+                    SENİ ÇOK SEVİYORUMMM! ❤️
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- GİZLİ SÜRPRİZ MODAL -->
+    <div id="secret-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div id="secret-modal-card" class="bg-[#290e1a] border-2 border-[#ff5c97]/70 rounded-3xl max-w-md w-full p-7 sm:p-9 text-center shadow-[0_0_55px_rgba(255,59,127,0.45)] relative transform transition-all scale-95 opacity-0">
+            <button id="close-secret-modal" type="button" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#3d1728] hover:bg-[#521f36] text-[#ffd1e3] flex items-center justify-center transition-colors">
+                ✕
+            </button>
+
+            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-tr from-[#ff2e74] to-[#ff9ec2] flex items-center justify-center text-white text-3xl shadow-lg">
+                ♥
+            </div>
+
+            <span class="text-xs uppercase tracking-[0.2em] text-[#ff8fb8] font-semibold">Tebrikler Sevgilim!</span>
+            <h3 id="display-secret-title" class="font-serif-romantic text-3xl font-bold text-[#fff0f5] mt-1 mb-4">
+                1. Ayımızın Gizli Notu
+            </h3>
+
+            <div class="bg-[#1c0811] rounded-2xl p-5 border border-[#ff8fb8]/30 shadow-inner mb-6">
+                <p id="display-secret-note" class="font-handwriting text-2xl sm:text-[26px] leading-relaxed text-[#fff0f5]"></p>
+            </div>
+
+            <button id="confirm-secret-btn" type="button" class="w-full bg-gradient-to-r from-[#ff2e74] to-[#ff70a6] hover:opacity-95 text-white font-semibold py-3 rounded-full shadow-lg transition-all">
+                Seni Çok Seviyorum ❤️
+            </button>
+        </div>
+    </div>
+
+    <!-- LIGHTBOX MODAL -->
+    <div id="lightbox-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/88 backdrop-blur-md">
+        <div class="relative max-w-lg w-full bg-[#290e1a] border border-[#ff8fb8]/50 rounded-3xl p-4 sm:p-6 shadow-2xl text-center space-y-4">
+            <button id="close-lightbox-btn" type="button" class="absolute -top-3.5 -right-3.5 w-9 h-9 rounded-full bg-[#ff2e74] hover:bg-[#ff4785] text-white font-bold flex items-center justify-center shadow-lg transition-colors">
+                ✕
+            </button>
+
+            <div class="overflow-hidden rounded-2xl border border-[#ff8fb8]/25 bg-[#17060d]">
+                <img id="lightbox-img" src="" alt="Anı Fotoğrafı" class="w-full max-h-[60vh] object-contain mx-auto">
+            </div>
+
+            <div class="space-y-1 pt-1">
+                <span id="lightbox-date" class="text-xs uppercase tracking-[0.2em] text-[#ff8fb8] font-semibold block"></span>
+                <p id="lightbox-caption" class="font-handwriting text-2xl sm:text-3xl text-[#fff0f5] leading-snug"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // CONFIG
+        const CONFIG = {
+            startDate: "2026-10-17T00:00:00",
+            startDateLabel: "Başlangıç Anımız: 16 Ekim 2026 • 21:56",
+            badgeText: "16.10.2026 • SONSUZLUĞA İLK ADIM",
+            mainTitle: "İlker & Ayşenaz",
+            subTitle: "Birlikte geçen en güzel ilk 1 ayımız kutlu olsun sevgilim ✨",
+            backgroundMusicFile: "Beyaz.mp3",
+            musicFile: "yeniden.mp3",
+            musicFallbackFile: "yeniden.mp3",
+            musicBadge: "BİZİM ŞARKIMIZ",
+            musicTitle: "Yalın - Yeniden",
+            musicYoutubeUrl: "https://www.youtube.com/watch?v=WdnULqAm824",
+            puzzleImage: "bizilk.jpeg",
+            secretTitle: "1. Ayımızın Gizli Notu",
+            secretNote: "Hayatımın en güzel yapbozunun eksik kalan tek parçası sendin Birtaneeeeemmmmm... Seninle tamamlandım, seninle her anım anlam kazandı. İlk ayımız kutlu olsun sevgilim, nice aylarımıza yıllarımıza! ❤️",
+            letterHeader: "16 Ekim 2026'dan Sonsuzluğa...",
+            letterContent: `Birtaneeemm Ayşenaz,
+
+16 Ekim'de hayatıma girdiğin günden beri her sabahım daha aydınlık, her gecem daha huzurlu. Birlikte geçirdiğimiz bu ilk 1 ay, ömrümün en güzel, en masalsı 30 günü oldu. Rüya gibiydi. Rüya görüyorum sanmıştım ama gerçekmiş.
+
+Gülüşünle içimi ısıttığın, sesinle tüm yorgunluğumu aldığın, bana dünyanın en şanslı insanı olduğumu hissettirdiğin her an için sana binlerce kez teşekkür ederim.
+
+Seni üzdüğüm, sinirlendirdiğim her an için de binlerce kez özür dilerim.
+
+Bu sadece başlangıç... Önümüzde el ele yürüyeceğimiz nice aylar, yıllar ve birlikte yazacağımız koskoca bir ömür var. İyi ki varsın, iyi ki benimsin sevgilim.`,
+            letterSign: "Sonsuz Sevgiyle, İlker ♥",
+            memories: [
+                {
+                    image: "ilkyazisma.jpeg",
+                    date: "İlişkimizin Başlangıcı",
+                    caption: "Her şeyin başladığı o en özel gece... Kalbimi sana emanet ettiğim o an."
+                },
+                {
+                    image: "bizilk.jpeg",
+                    date: "İlk Yanyana Durmamız",
+                    caption: "Birbirimize daha da güvendiğimiz o an... Senin gözlerine baktığımda çok huzurluydum.."
+                },
+                {
+                    image: "ikincifoto.jpeg",
+                    date: "Kaçamaklar",
+                    caption: "Ortalıkta çok fazla düşman da olsa, tehlike de olsa herşeye rağmen yanyana olacağımızın karesi.❤"
+                },
+                {
+                    image: "sonfoto.jpeg",
+                    date: "13 Kasım 2026",
+                    caption: "Koridorların bile bizi izlediği an.. Zaman benim için durmuştu burda yanyana yürümek ve oturmak harikaydı. İlerleyen zamanlarda dahası da olacak İnşallah."
+                }
+            ],
+            bottomNoteTitle: "Küçük Bir Not",
+            bottomNoteText: "Ne zaman kendini yorgun ya da yalnız hissedersen bu sayfayı aç ve geçen her salisede seni çok seven birinin olduğunu hatırla. İyi ki varsın!❤ Seni aşırı acayip seviyorum birtaneeeeeeeemmmmmmmmmmm! ❤"
+        };
+
+        // 1. SAYAÇ
+        const elDays = document.getElementById("count-days");
+        const elHours = document.getElementById("count-hours");
+        const elMinutes = document.getElementById("count-minutes");
+        const elSeconds = document.getElementById("count-seconds");
+
+        function padZero(num) {
+            return String(Math.floor(num)).padStart(2, "0");
+        }
+
+        function updateLiveCounter() {
+            const parsedStart = new Date(CONFIG.startDate).getTime();
+            const startTime = Number.isNaN(parsedStart) ? new Date("2026-10-16T00:00:00").getTime() : parsedStart;
+            const now = Date.now();
+            const diffMs = Math.abs(now - startTime);
+
+            const totalSeconds = Math.floor(diffMs / 1000);
+            const days = Math.floor(totalSeconds / 86400);
+            const hours = Math.floor((totalSeconds % 86400) / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+
+            if (elDays) elDays.textContent = padZero(days);
+            if (elHours) elHours.textContent = padZero(hours);
+            if (elMinutes) elMinutes.textContent = padZero(minutes);
+            if (elSeconds) elSeconds.textContent = padZero(seconds);
+        }
+
+        updateLiveCounter();
+        setInterval(updateLiveCounter, 1000);
+
+        // 2. METİNLERİ YERLEŞTİRME & KALPLER
+        function applyStaticTexts() {
+            document.getElementById("display-badge").textContent = CONFIG.badgeText;
+            document.getElementById("display-main-title").textContent = CONFIG.mainTitle;
+            document.getElementById("display-sub-title").textContent = CONFIG.subTitle;
+            document.getElementById("display-start-date-text").textContent = CONFIG.startDateLabel;
+            document.getElementById("display-music-badge").textContent = CONFIG.musicBadge;
+            document.getElementById("display-music-title").textContent = CONFIG.musicTitle;
+            document.getElementById("music-youtube-link").href = CONFIG.musicYoutubeUrl;
+            document.getElementById("display-secret-title").textContent = CONFIG.secretTitle;
+            document.getElementById("display-secret-note").textContent = CONFIG.secretNote;
+            document.getElementById("display-letter-header").textContent = CONFIG.letterHeader;
+            document.getElementById("display-letter-content").textContent = CONFIG.letterContent;
+            document.getElementById("display-letter-sign").textContent = CONFIG.letterSign;
+            document.getElementById("display-bottom-note-title").textContent = CONFIG.bottomNoteTitle;
+            document.getElementById("display-bottom-note-text").textContent = CONFIG.bottomNoteText;
+        }
+        applyStaticTexts();
+
+        function createFloatingHearts() {
+            const container = document.getElementById("floating-hearts");
+            if (!container) return;
+            const heartSymbols = ["♥", "❤", "💕", "💖"];
+            for (let i = 0; i < 24; i++) {
+                const span = document.createElement("span");
+                span.className = "heart-particle";
+                span.textContent = heartSymbols[i % heartSymbols.length];
+                span.style.left = `${Math.random() * 100}%`;
+                span.style.fontSize = `${12 + Math.random() * 18}px`;
+                span.style.animationDuration = `${11 + Math.random() * 14}s`;
+                span.style.animationDelay = `${-Math.random() * 18}s`;
+                container.appendChild(span);
+            }
+        }
+        createFloatingHearts();
+
+        // 3. MÜZİK ÇALAR
+        const bgAudio = document.getElementById("bgAudio");
+        const mainAudio = document.getElementById("mainAudio");
+        const vinylDisc = document.getElementById("vinyl-disc");
+        const eqBars = document.querySelectorAll(".eq-bar");
+        const musicToggleBtn = document.getElementById("music-toggle-btn");
+        const musicIconPlay = document.getElementById("music-icon-play");
+        const musicIconPause = document.getElementById("music-icon-pause");
+        const musicBtnLabel = document.getElementById("music-btn-label");
+        const musicStatusText = document.getElementById("music-status-text");
+
+        let triedMainFallback = false;
+        if (bgAudio && CONFIG.backgroundMusicFile) bgAudio.src = CONFIG.backgroundMusicFile;
+        if (mainAudio && CONFIG.musicFile) mainAudio.src = CONFIG.musicFile;
+
+        mainAudio.addEventListener("error", () => {
+            if (!triedMainFallback && CONFIG.musicFallbackFile) {
+                triedMainFallback = true;
+                mainAudio.src = CONFIG.musicFallbackFile;
+                mainAudio.load();
+            }
+        });
+
+        function updateMainAudioUI(isPlaying) {
+            if (isPlaying) {
+                vinylDisc.classList.add("playing");
+                eqBars.forEach(bar => bar.classList.add("playing"));
+                musicIconPlay.classList.add("hidden");
+                musicIconPause.classList.remove("hidden");
+                musicBtnLabel.textContent = "Duraklat";
+                musicStatusText.textContent = `Çalıyor ♪ • ${CONFIG.musicTitle}`;
+            } else {
+                vinylDisc.classList.remove("playing");
+                eqBars.forEach(bar => bar.classList.remove("playing"));
+                musicIconPlay.classList.remove("hidden");
+                musicIconPause.classList.add("hidden");
+                musicBtnLabel.textContent = "Çal";
+                musicStatusText.textContent = `Arka plan müziği devrede • ${CONFIG.musicTitle}`;
+            }
+        }
+
+        function startBackgroundMusic() {
+            if (bgAudio.paused && mainAudio.paused && CONFIG.backgroundMusicFile) {
+                bgAudio.play().then(() => {
+                    musicStatusText.textContent = `Arka plan müziği çalıyor...`;
+                    removeInteractionListeners();
+                }).catch(() => {});
+            }
+        }
+
+        function removeInteractionListeners() {
+            ["click", "touchstart", "pointerdown", "keydown", "scroll"].forEach(evt => {
+                window.removeEventListener(evt, startBackgroundMusic);
+            });
+        }
+
+        ["click", "touchstart", "pointerdown", "keydown", "scroll"].forEach(evt => {
+            window.addEventListener(evt, startBackgroundMusic, { passive: true });
+        });
+
+        window.addEventListener("DOMContentLoaded", () => {
+            if (CONFIG.backgroundMusicFile) {
+                bgAudio.play().catch(() => {});
+            }
+        });
+
+        musicToggleBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (mainAudio.paused) {
+                if (!bgAudio.paused) bgAudio.pause();
+                mainAudio.play().then(() => {
+                    updateMainAudioUI(true);
+                    removeInteractionListeners();
+                }).catch(() => {
+                    musicStatusText.textContent = `"${CONFIG.musicFile}" dosyasını klasöre ekleyin`;
+                });
+            } else {
+                mainAudio.pause();
+                updateMainAudioUI(false);
+                if (CONFIG.backgroundMusicFile) bgAudio.play().catch(() => {});
+            }
+        });
+
+        mainAudio.addEventListener("ended", () => {
+            updateMainAudioUI(false);
+            if (CONFIG.backgroundMusicFile) bgAudio.play().catch(() => {});
+        });
+
+        // 4. KONFETİ & SES
+        function playConfettiPopSound() {
+            try {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtx) return;
+                const ctx = new AudioCtx();
+                if (ctx.state === "suspended") ctx.resume();
+                const now = ctx.currentTime;
+                const bufferSize = ctx.sampleRate * 0.28;
+                const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+                const data = noiseBuffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.055));
+                }
+                const noise = ctx.createBufferSource();
+                noise.buffer = noiseBuffer;
+                const filter = ctx.createBiquadFilter();
+                filter.type = "bandpass";
+                filter.frequency.setValueAtTime(1100, now);
+                filter.frequency.exponentialRampToValueAtTime(320, now + 0.25);
+                filter.Q.value = 0.9;
+                const popGain = ctx.createGain();
+                popGain.gain.setValueAtTime(1.0, now);
+                popGain.gain.exponentialRampToValueAtTime(0.01, now + 0.26);
+                noise.connect(filter);
+                filter.connect(popGain);
+                popGain.connect(ctx.destination);
+                noise.start(now);
+            } catch (_) {}
+        }
+
+        function fireRomanticConfetti() {
+            playConfettiPopSound();
+            if (typeof confetti !== "function") return;
+            const colors = ["#ff2e74", "#ff8fb8", "#ffd1e3", "#fbbf24", "#ffffff"];
+            confetti({ particleCount: 80, spread: 75, origin: { y: 0.65 }, colors });
+            setTimeout(() => {
+                confetti({ particleCount: 55, angle: 60, spread: 60, origin: { x: 0.1, y: 0.65 }, colors });
+                confetti({ particleCount: 55, angle: 120, spread: 60, origin: { x: 0.9, y: 0.65 }, colors });
+            }, 260);
+        }
+
+        // 5. YEDEK GÖRSEL ÜRETİCİ
+        function createRomanticIllustrationDataUrl(variant = 0) {
+            const canvas = document.createElement("canvas");
+            canvas.width = 600;
+            canvas.height = 600;
+            const ctx = canvas.getContext("2d");
+            const palettes = [
+                ["#2e0c1b", "#6b183d", "#ff5c97"],
+                ["#260918", "#5c1436", "#ff8fb8"],
+                ["#330d1f", "#7a1c47", "#ffb3d1"],
+                ["#1f0713", "#4f112d", "#ff4785"]
+            ];
+            const [c1, c2, c3] = palettes[variant % palettes.length];
+            const bgGrad = ctx.createLinearGradient(0, 0, 0, 600);
+            bgGrad.addColorStop(0, c1);
+            bgGrad.addColorStop(0.65, c2);
+            bgGrad.addColorStop(1, "#14040b");
+            ctx.fillStyle = bgGrad;
+            ctx.fillRect(0, 0, 600, 600);
+
+            ctx.fillStyle = "#ffd6e7";
+            ctx.font = "italic 28px Georgia, serif";
+            ctx.textAlign = "center";
+            ctx.fillText("İlker & Ayşenaz", 300, 300);
+            return canvas.toDataURL("image/png");
+        }
+
+        // 6. JIGSAW YAPBOZ
+        const puzzleContainer = document.getElementById("puzzle-container");
+        const puzzleHintImg = document.getElementById("puzzle-hint-img");
+        const gridSizeSelect = document.getElementById("grid-size-select");
+        const shufflePuzzleBtn = document.getElementById("shuffle-puzzle-btn");
+        const hintToggleBtn = document.getElementById("hint-toggle-btn");
+        const puzzleStatusText = document.getElementById("puzzle-status-text");
+        const puzzleProgressText = document.getElementById("puzzle-progress-text");
+        const reopenSecretContainer = document.getElementById("reopen-secret-container");
+
+        let gridSize = 3;
+        let activePuzzleSrc = "";
+        let activeImgWidth = 600;
+        let activeImgHeight = 600;
+        let lockedCount = 0;
+        let hintVisible = true;
+        let puzzleSolvedOnce = false;
+
+        function loadPuzzleSource() {
+            const img = new Image();
+            img.onload = () => {
+                activePuzzleSrc = CONFIG.puzzleImage;
+                activeImgWidth = img.naturalWidth || 600;
+                activeImgHeight = img.naturalHeight || 600;
+                puzzleHintImg.src = activePuzzleSrc;
+                buildJigsawPuzzle();
+            };
+            img.onerror = () => {
+                const fallbackUrl = createRomanticIllustrationDataUrl(0);
+                activePuzzleSrc = fallbackUrl;
+                activeImgWidth = 600;
+                activeImgHeight = 600;
+                puzzleHintImg.src = fallbackUrl;
+                buildJigsawPuzzle();
+            };
+            img.src = CONFIG.puzzleImage;
+        }
+
+        function createJigsawSvgPath(x, y, size, topTab, rightTab, bottomTab, leftTab) {
+            const tabSize = size * 0.22;
+            const neck = size * 0.12;
+            let d = `M ${x} ${y} `;
+            d += (topTab === 0) ? `L ${x + size} ${y} ` : `L ${x + size * 0.36} ${y} C ${x + size * 0.36} ${y - topTab * neck}, ${x + size * 0.28} ${y - topTab * tabSize}, ${x + size * 0.5} ${y - topTab * tabSize} C ${x + size * 0.72} ${y - topTab * tabSize}, ${x + size * 0.64} ${y - topTab * neck}, ${x + size * 0.64} ${y} L ${x + size} ${y} `;
+            d += (rightTab === 0) ? `L ${x + size} ${y + size} ` : `L ${x + size} ${y + size * 0.36} C ${x + size + rightTab * neck} ${y + size * 0.36}, ${x + size + rightTab * tabSize} ${y + size * 0.28}, ${x + size + rightTab * tabSize} ${y + size * 0.5} C ${x + size + rightTab * tabSize} ${y + size * 0.72}, ${x + size + rightTab * neck} ${y + size * 0.64}, ${x + size} ${y + size * 0.64} L ${x + size} ${y + size} `;
+            d += (bottomTab === 0) ? `L ${x} ${y + size} ` : `L ${x + size * 0.64} ${y + size} C ${x + size * 0.64} ${y + size + bottomTab * neck}, ${x + size * 0.72} ${y + size + bottomTab * tabSize}, ${x + size * 0.5} ${y + size + bottomTab * tabSize} C ${x + size * 0.28} ${y + size + bottomTab * tabSize}, ${x + size * 0.36} ${y + size + bottomTab * neck}, ${x + size * 0.36} ${y + size} L ${x} ${y + size} `;
+            d += (leftTab === 0) ? `L ${x} ${y} ` : `L ${x} ${y + size * 0.64} C ${x - leftTab * neck} ${y + size * 0.64}, ${x - leftTab * tabSize} ${y + size * 0.72}, ${x - leftTab * tabSize} ${y + size * 0.5} C ${x - leftTab * tabSize} ${y + size * 0.28}, ${x - leftTab * neck} ${y + size * 0.36}, ${x} ${y + size * 0.36} L ${x} ${y} `;
+            d += "Z";
+            return d;
+        }
+
+        function buildJigsawPuzzle() {
+            if (!activePuzzleSrc) return;
+            puzzleContainer.innerHTML = "";
+            lockedCount = 0;
+
+            const boardSize = puzzleContainer.clientWidth || 360;
+            const pieceSize = boardSize / gridSize;
+            const pad = Math.ceil(pieceSize * 0.28);
+            const totalPieces = gridSize * gridSize;
+
+            puzzleProgressText.textContent = `0 / ${totalPieces} Parça`;
+            puzzleStatusText.textContent = "Parçaları doğru yuvalarına sürükle...";
+
+            const hTabs = Array.from({ length: gridSize - 1 }, () => Array.from({ length: gridSize }, () => (Math.random() > 0.5 ? 1 : -1)));
+            const vTabs = Array.from({ length: gridSize }, () => Array.from({ length: gridSize - 1 }, () => (Math.random() > 0.5 ? 1 : -1)));
+
+            const scale = Math.max(boardSize / activeImgWidth, boardSize / activeImgHeight);
+            const renderedImgW = activeImgWidth * scale;
+            const renderedImgH = activeImgHeight * scale;
+            const imgOffsetX = (boardSize - renderedImgW) / 2;
+            const imgOffsetY = (boardSize - renderedImgH) / 2;
+            const svgNS = "http://www.w3.org/2000/svg";
+
+            for (let row = 0; row < gridSize; row++) {
+                for (let col = 0; col < gridSize; col++) {
+                    const topTab = row === 0 ? 0 : -hTabs[row - 1][col];
+                    const bottomTab = row === gridSize - 1 ? 0 : hTabs[row][col];
+                    const leftTab = col === 0 ? 0 : -vTabs[row][col - 1];
+                    const rightTab = col === gridSize - 1 ? 0 : vTabs[row][col];
+
+                    const boxSize = Math.ceil(pieceSize + pad * 2);
+                    const clipId = `jigsaw-clip-${row}-${col}-${Date.now()}`;
+                    const pathData = createJigsawSvgPath(pad, pad, pieceSize, topTab, rightTab, bottomTab, leftTab);
+
+                    const svgEl = document.createElementNS(svgNS, "svg");
+                    svgEl.setAttribute("width", boxSize);
+                    svgEl.setAttribute("height", boxSize);
+                    svgEl.setAttribute("viewBox", `0 0 ${boxSize} ${boxSize}`);
+                    svgEl.setAttribute("class", "jigsaw-piece");
+
+                    const defs = document.createElementNS(svgNS, "defs");
+                    const clipPath = document.createElementNS(svgNS, "clipPath");
+                    clipPath.setAttribute("id", clipId);
+                    const clipShape = document.createElementNS(svgNS, "path");
+                    clipShape.setAttribute("d", pathData);
+                    clipPath.appendChild(clipShape);
+                    defs.appendChild(clipPath);
+                    svgEl.appendChild(defs);
+
+                    const imgEl = document.createElementNS(svgNS, "image");
+                    imgEl.setAttribute("href", activePuzzleSrc);
+                    imgEl.setAttribute("width", renderedImgW);
+                    imgEl.setAttribute("height", renderedImgH);
+                    imgEl.setAttribute("x", imgOffsetX - (col * pieceSize - pad));
+                    imgEl.setAttribute("y", imgOffsetY - (row * pieceSize - pad));
+                    imgEl.setAttribute("preserveAspectRatio", "none");
+                    imgEl.setAttribute("clip-path", `url(#${clipId})`);
+                    svgEl.appendChild(imgEl);
+
+                    const borderPath = document.createElementNS(svgNS, "path");
+                    borderPath.setAttribute("d", pathData);
+                    borderPath.setAttribute("fill", "none");
+                    borderPath.setAttribute("stroke", "rgba(255, 192, 217, 0.55)");
+                    borderPath.setAttribute("stroke-width", "1.6");
+                    svgEl.appendChild(borderPath);
+
+                    const correctLeft = col * pieceSize - pad;
+                    const correctTop = row * pieceSize - pad;
+                    const maxRandX = Math.max(10, boardSize - pieceSize);
+                    const maxRandY = Math.max(10, boardSize - pieceSize);
+                    const startLeft = Math.random() * maxRandX - pad * 0.4;
+                    const startTop = Math.random() * maxRandY - pad * 0.4;
+
+                    svgEl.style.left = `${startLeft}px`;
+                    svgEl.style.top = `${startTop}px`;
+                    svgEl.style.zIndex = String(10 + Math.floor(Math.random() * 15));
+
+                    enablePieceDrag(svgEl, correctLeft, correctTop, pieceSize, totalPieces);
+                    puzzleContainer.appendChild(svgEl);
+                }
+            }
+        }
+
+        function enablePieceDrag(el, targetX, targetY, pieceSize, totalPieces) {
+            let isDragging = false;
+            let startPointerX = 0;
+            let startPointerY = 0;
+            let initialLeft = 0;
+            let initialTop = 0;
+
+            el.addEventListener("pointerdown", (e) => {
+                if (el.classList.contains("locked")) return;
+                isDragging = true;
+                el.setPointerCapture(e.pointerId);
+                startPointerX = e.clientX;
+                startPointerY = e.clientY;
+                initialLeft = parseFloat(el.style.left) || 0;
+                initialTop = parseFloat(el.style.top) || 0;
+            });
+
+            el.addEventListener("pointermove", (e) => {
+                if (!isDragging) return;
+                const dx = e.clientX - startPointerX;
+                const dy = e.clientY - startPointerY;
+                el.style.left = `${initialLeft + dx}px`;
+                el.style.top = `${initialTop + dy}px`;
+            });
+
+            el.addEventListener("pointerup", (e) => {
+                if (!isDragging) return;
+                isDragging = false;
+                try { el.releasePointerCapture(e.pointerId); } catch (_) {}
+
+                const currLeft = parseFloat(el.style.left) || 0;
+                const currTop = parseFloat(el.style.top) || 0;
+                const dist = Math.hypot(currLeft - targetX, currTop - targetY);
+                const snapThreshold = pieceSize * 0.28;
+
+                if (dist <= snapThreshold) {
+                    el.style.left = `${targetX}px`;
+                    el.style.top = `${targetY}px`;
+                    el.classList.add("locked");
+                    lockedCount++;
+                    puzzleProgressText.textContent = `${lockedCount} / ${totalPieces} Parça`;
+
+                    if (lockedCount === totalPieces) {
+                        puzzleStatusText.textContent = "Harikasın sevgilim! Yapbozu tamamladın ❤️";
+                        puzzleSolvedOnce = true;
+                        reopenSecretContainer.classList.remove("hidden");
+                        fireRomanticConfetti();
+                        setTimeout(openSecretModal, 450);
+                    }
+                }
+            });
+        }
+
+        gridSizeSelect.addEventListener("change", (e) => {
+            gridSize = parseInt(e.target.value, 10) || 3;
+            buildJigsawPuzzle();
+        });
+
+        shufflePuzzleBtn.addEventListener("click", () => {
+            buildJigsawPuzzle();
+        });
+
+        hintToggleBtn.addEventListener("click", () => {
+            hintVisible = !hintVisible;
+            puzzleHintImg.style.opacity = hintVisible ? "0.22" : "0";
+        });
+
+        let resizeTimer = null;
+        window.addEventListener("resize", () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                if (!puzzleSolvedOnce) buildJigsawPuzzle();
+            }, 250);
+        });
+
+        loadPuzzleSource();
+
+        // 7. MODALLAR & MEKTUP
+        const secretModal = document.getElementById("secret-modal");
+        const secretModalCard = document.getElementById("secret-modal-card");
+        const closeSecretModalBtn = document.getElementById("close-secret-modal");
+        const confirmSecretBtn = document.getElementById("confirm-secret-btn");
+        const reopenSecretBtn = document.getElementById("reopen-secret-btn");
+
+        function openSecretModal() {
+            secretModal.classList.remove("hidden");
+            secretModal.classList.add("flex");
+            requestAnimationFrame(() => {
+                secretModalCard.classList.remove("scale-95", "opacity-0");
+                secretModalCard.classList.add("scale-100", "opacity-100");
+            });
+        }
+
+        function closeSecretModal() {
+            secretModalCard.classList.remove("scale-100", "opacity-100");
+            secretModalCard.classList.add("scale-95", "opacity-0");
+            setTimeout(() => {
+                secretModal.classList.add("hidden");
+                secretModal.classList.remove("flex");
+            }, 200);
+        }
+
+        closeSecretModalBtn.addEventListener("click", closeSecretModal);
+        confirmSecretBtn.addEventListener("click", closeSecretModal);
+        reopenSecretBtn.addEventListener("click", openSecretModal);
+        secretModal.addEventListener("click", (e) => {
+            if (e.target === secretModal) closeSecretModal();
+        });
+
+        const envelopeClosedView = document.getElementById("envelope-closed-view");
+        const envelopeOpenedView = document.getElementById("envelope-opened-view");
+        const closeLetterBtn = document.getElementById("close-letter-btn");
+
+        envelopeClosedView.addEventListener("click", () => {
+            envelopeClosedView.classList.add("hidden");
+            envelopeOpenedView.classList.remove("hidden");
+            fireRomanticConfetti();
+        });
+
+        closeLetterBtn.addEventListener("click", () => {
+            envelopeOpenedView.classList.add("hidden");
+            envelopeClosedView.classList.remove("hidden");
+        });
+
+        // 8. ANI DEFTERİ
+        const memoryGrid = document.getElementById("memory-grid");
+        const lightboxModal = document.getElementById("lightbox-modal");
+        const lightboxImg = document.getElementById("lightbox-img");
+        const lightboxDate = document.getElementById("lightbox-date");
+        const lightboxCaption = document.getElementById("lightbox-caption");
+        const closeLightboxBtn = document.getElementById("close-lightbox-btn");
+
+        function renderMemoryBook() {
+            memoryGrid.innerHTML = "";
+            const rotations = ["-2deg", "1.8deg", "-1.5deg", "2deg", "-1deg"];
+
+            CONFIG.memories.forEach((mem, idx) => {
+                const fallbackUrl = createRomanticIllustrationDataUrl(idx + 1);
+                const card = document.createElement("article");
+                card.className = "polaroid-card relative rounded-2xl p-4 pb-6 cursor-pointer flex flex-col";
+                card.style.transform = `rotate(${rotations[idx % rotations.length]})`;
+
+                card.innerHTML = `
+                    <div class="washi-tape"></div>
+                    <div class="aspect-square w-full overflow-hidden rounded-xl bg-[#17060d] border border-[#ff8fb8]/20 mb-4">
+                        <img src="${mem.image}" alt="${mem.date}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                    </div>
+                    <div class="space-y-1.5 text-center px-1 flex-1 flex flex-col justify-between">
+                        <span class="text-[11px] uppercase tracking-[0.2em] text-[#ff8fb8] font-semibold block">${mem.date}</span>
+                        <p class="font-handwriting text-2xl leading-snug text-[#fff0f5]">${mem.caption}</p>
+                    </div>
+                `;
+
+                const imgEl = card.querySelector("img");
+                imgEl.addEventListener("error", () => {
+                    imgEl.src = fallbackUrl;
+                });
+
+                card.addEventListener("click", () => {
+                    lightboxImg.src = imgEl.src;
+                    lightboxDate.textContent = mem.date;
+                    lightboxCaption.textContent = mem.caption;
+                    lightboxModal.classList.add("flex");
+                    lightboxModal.classList.remove("hidden");
+                });
+
+                memoryGrid.appendChild(card);
+            });
+        }
+        renderMemoryBook();
+
+        function closeLightbox() {
+            lightboxModal.classList.add("hidden");
+            lightboxModal.classList.remove("flex");
+        }
+
+        closeLightboxBtn.addEventListener("click", closeLightbox);
+        lightboxModal.addEventListener("click", (e) => {
+            if (e.target === lightboxModal) closeLightbox();
+        });
+    </script>
+</body>
+</html>
